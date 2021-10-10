@@ -17,6 +17,9 @@ const User = require('./models/user'); // brings in our User class from the mode
 
 const app = express(); // this constant which you can name whatever you want, stores the express() function. That is how we use express. This app is a valid request handler.
 
+//TO RUN ON HEROKU: the following line overrides our typical port:3000 setting so we can deploy this to Heroku
+const PORT = process.env.PORT || 5000; // So we can run on heroku || (OR) localhost:5000
+
 app.set('view engine', 'ejs'); // 'app.set' sets a global config value. In this case it's saying that the dynamic view engine is 'ejs'.
 app.set('views', 'views'); // this 'app.set' sets the dynamic views folder. The first 'views' means look for views in the second value, 'views', which is the folder. You can use a folder named something other than 'views'. Also, if you leave the second value out, the default is to a folder called 'views'.
 
@@ -75,8 +78,8 @@ mongoose.connect(
     user.save(); // saves our user when we start the server
       }
     });
-
-    app.listen(3000);
+// NEXT LINE CHANGED TO CONNECT USING HEROKU   old line was 'app.listen(3000);'
+    app.listen(PORT, () => console.log(`Listening on ${PORT}`));
   })
   .catch(err => {
     console.log("Err from mongoose.connect in /app.js file", err);
